@@ -64,7 +64,4 @@ class GAME(object):
         self.currentPiece = PIECE(random.randint(0,7)) #current piece
         self.nextPieces = [PIECE(random.randint(0,7)) for x in range(3)] #next piece in sequence
 
-def collisionDetection(grid, piece):
-
-
-
+#def collisionDetection(grid, piece):
