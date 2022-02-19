@@ -3,6 +3,9 @@
 import pygame
 import random
 
+
+
+
 """
 10 x 20 square grid
 shapes: S, Z, I, O, J, L, T
@@ -12,6 +15,12 @@ represented in order by 0 - 6
 pygame.font.init()
 
 # GLOBALS VARS
+global score
+score = 0
+
+def incrementScore(amt):
+    score += amt
+
 s_width = 800
 s_height = 700
 play_width = 300  # meaning 300 // 10 = 30 width per block
@@ -127,6 +136,7 @@ def draw_grid(surface, row, col):
 
 
 def clear_rows(grid, locked):
+
     # need to see if row is clear the shift every other row above down one
 
 
@@ -147,8 +157,23 @@ def clear_rows(grid, locked):
                 if y < ind:
                     newKey = (x, y + 1)
                     locked[newKey] = locked.pop(key)
+    if (inc > 0):
+        incrementScore(level * [100,300,600,1000][inc-1])
+    linesLeft -= inc
 
-    ''' ## Does not quite work
+
+global level
+level = 1
+global speed
+speed = 1
+global lines
+lines = 0
+global linesLeft
+linesLeft = 10
+
+
+
+''' ## Does not quite work
     if inc > 0:
         for key in sorted(list(locked), key=lambda x: x[1])[::-1]:
             x, y = key
@@ -172,6 +197,29 @@ def draw_next_shape(shape, surface):
 
     surface.blit(label, (sx + 10, sy- 30))
 
+'''
+
++1 for soft drop
++3 for hard drop
+
+(multiply by the level amount)
++100 for 1 line
++300 for 2 lines
++600 for 3 lines
++1000 for 4 lines
+'''
+
+
+
+
+
+
+
+"Display Score & Level"
+
+
+
+
 
 def draw_window(surface):
     surface.fill((0,0,0))
@@ -179,7 +227,14 @@ def draw_window(surface):
     font = pygame.font.SysFont('comicsans', 60)
     label = font.render('TETRIS', 1, (255,255,255))
 
+
     surface.blit(label, (top_left_x + play_width / 2 - (label.get_width() / 2), 30))
+
+
+
+
+
+
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):
@@ -205,7 +260,10 @@ def main():
     fall_time = 0
 
     while run:
-        fall_speed = 0.27
+        fall_speed = speed
+
+
+
 
         grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime()
